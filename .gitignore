@@ -1,0 +1,47 @@
+# .gitignore
+
+# Backend
+/backend/__pycache__
+/backend/*.py[cod]
+/backend/*$py.class
+/backend/.python-version
+/backend/venv/
+/backend/.venv/
+/backend/env/
+/backend/.env
+
+# Frontend
+/frontend/node_modules/
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/dist
+/frontend/dist-ssr
+/frontend/*.local
+/frontend/logs
+/frontend/*.log
+/frontend/pnpm-debug.log*
+/frontend/lerna-debug.log*
+
+# IDE files and # OS files
+/.idea/
+/.vscode/
+*.swp
+*~
+*.sublime*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
