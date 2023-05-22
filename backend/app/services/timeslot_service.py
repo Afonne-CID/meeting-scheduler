@@ -45,8 +45,8 @@ def create_timeslot(user_id, meeting_id, start_time, end_time):
         timeslot = TimeSlot(
             user_id=user_id,
             meeting_id=meeting_id,
-            start_time=isoparse(start_time),
-            end_time=isoparse(end_time))
+            start_time=start_time,
+            end_time=end_time)
         db.session.add(timeslot)
         db.session.commit()
         return timeslot
