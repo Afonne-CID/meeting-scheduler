@@ -24,16 +24,19 @@ def create_timeslot(user_id, meeting_id, start_time, end_time):
     start_time and end_time.
 
     Args:
+        user_id (int): The ID of the user creating the timeslot.
         meeting_id (int): The ID of the meeting for which
                         the timeslot is created.
-        start_time (datetime): The start time of the timeslot.
-        end_time (datetime): The end time of the timeslot.
+        start_time (datetime or str): The start time of the timeslot in ISO 8601 format or as a datetime object.
+        end_time (datetime or str): The end time of the timeslot in ISO 8601 format or as a datetime object.
 
     Returns:
         The created TimeSlot object.
 
     Raises:
-        Exception: If there is a problem creating the timeslot.
+        ValueError: If the timeslot is invalid.
+        ResourceCreationError: If there is a problem creating the timeslot.
+        UnexpectedError: If an unexpected error occurs during timeslot creation.
     '''
     try:
         timeslot = TimeSlot(
