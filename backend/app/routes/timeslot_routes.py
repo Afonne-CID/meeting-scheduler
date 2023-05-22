@@ -32,6 +32,9 @@ def create_timeslot():
     '''
     data = request.get_json()
 
+    if data is None:
+        return jsonify({'error': 'No JSON data in request'}), 400
+
     # validate incoming data
     if not all(key in data for key in ['meeting_id',
                                        'start_time',
@@ -66,6 +69,10 @@ def update_timeslot(timeslot_id):
         if update is successful. 404 status code if timeslot is not found.
     '''
     data = request.get_json()
+
+    if data is None:
+        return jsonify({'error': 'No JSON data in request'}), 400
+
     timeslot = timeslot_service.update_timeslot(
         user_id=g.user_id,
         timeslot_id=timeslot_id,
