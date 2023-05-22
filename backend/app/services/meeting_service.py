@@ -9,7 +9,7 @@ Functions:
 from flask import current_app
 from sqlalchemy.orm import joinedload
 from sqlalchemy.exc import IntegrityError
-from dateutil.parser import isoparse
+from . import timeslot_service
 from ..models.meeting import Meeting
 from ..models.vote import Vote
 from ..models.timeslot import TimeSlot
