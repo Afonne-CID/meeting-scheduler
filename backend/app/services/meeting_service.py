@@ -35,7 +35,7 @@ def get_meeting(meeting_id):
         return meeting
     except Exception as error:
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in get_meeting") from error
 
 
@@ -83,7 +83,7 @@ def get_meetings(user_id):
         return meetings
     except Exception as error:
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in get_all_meetings_by_user") from error
 
 
@@ -130,7 +130,7 @@ def create_meeting(user_id, title, description, time_slots):
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in create_meeting") from error
 
 
@@ -155,7 +155,7 @@ def update_meeting(user_id, meeting_id, title, description):
         if meeting is None:
             return None
         if meeting and meeting.user_id != user_id:
-            return None
+            return 'Unauthorized'
 
         if title is not None:
             meeting.title = title
@@ -166,7 +166,7 @@ def update_meeting(user_id, meeting_id, title, description):
         return meeting
     except Exception as error:
         db.session.rollback()
-        raise UnexpectedError("Could not update meeting.") from error
+        raise UnexpectedError(error, "Could not update meeting.") from error
 
 
 def delete_meeting(user_id, meeting_id):
@@ -195,5 +195,5 @@ def delete_meeting(user_id, meeting_id):
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in delete_meeting") from error
