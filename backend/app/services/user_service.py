@@ -49,7 +49,7 @@ def register_user(email, password):
 
     except Exception as error:
         db.session.rollback()
-        raise error
+        raise UnexpectedError(error, 'Registration failed')
 
 
 def login_user(email, password):
