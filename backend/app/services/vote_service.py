@@ -43,7 +43,7 @@ def create_vote(user_id, timeslot_id):
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in create_vote") from error
 
 
@@ -66,13 +66,13 @@ def delete_vote(user_id, vote_id):
         if vote is None:
             return None
         if vote and vote.user_id != user_id:
-            return None
+            return 'Unauthorized'
 
         db.session.delete(vote)
         db.session.commit()
-        return vote
+        return True
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in delete_vote") from error
