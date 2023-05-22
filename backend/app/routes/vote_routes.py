@@ -28,6 +28,9 @@ def create_vote():
     '''
     data = request.get_json()
 
+    if data is None:
+        return jsonify({'error': 'No JSON data in request'}), 400
+
     # validate incoming data
     if not all(key in data for key in ['timeslot_id']):
         return jsonify({'error': 'Missing required fields'}), 400
@@ -35,6 +38,7 @@ def create_vote():
     try:
         vote = vote_service.create_vote(
             user_id=g.user_id, timeslot_id=data['timeslot_id'])
+
         return jsonify(vote.to_dict()), 201
     except UnauthorizedError:
         return jsonify({
