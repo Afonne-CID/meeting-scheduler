@@ -58,8 +58,8 @@ class TimeSlot(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'start_time': self.start_time.isoformat(),
-            'end_time': self.end_time.isoformat(),
+            'start_time': self.start_time if isinstance(self.start_time, str) else self.start_time.isoformat(),
+            'end_time': self.end_time if isinstance(self.end_time, str) else self.end_time.isoformat(),
             'meeting_id': self.meeting_id,
             'votes': [vote.to_dict() for vote in self.votes]
         }
