@@ -52,10 +52,13 @@ def login_user():
     '''
     data = request.get_json()
 
+    if data is None:
+        return jsonify({'error': 'No JSON data in request'}), 400
+
     # validate incoming data
     if not all(key in data for key in ['email', 'password']):
         return jsonify({'error': 'Missing required fields'}), 400
 
     response, status_code = user_service.login_user(
-        data['email'], data['password'])
+        email=data['email'], password=data['password'])
     return jsonify(response), status_code
