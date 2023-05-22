@@ -8,6 +8,7 @@ Functions:
 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
+from ..exceptions import UnexpectedError
 from ..models.user import User
 from ..database import db
 
