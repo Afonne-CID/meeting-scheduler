@@ -134,12 +134,15 @@ def update_meeting(meeting_id):
             title=data.get('title'),
             description=data.get('description'),
         )
+
         if meeting is None:
             return jsonify({'error': 'Meeting not found'}), 404
+        if meeting == 'Unauthorized':
+            return jsonify({'error': 'Unauthorized to update the meeting'}), 403
 
         return jsonify(meeting.to_dict()), 200
-    except UnexpectedError as e:
-        return jsonify({'error': str(e)}), 500
+    except UnexpectedError as error:
+        return jsonify({'error': str(error)}), 500
 
 
 @meeting_routes.route('/meetings/<int:meeting_id>', methods=['DELETE'])
