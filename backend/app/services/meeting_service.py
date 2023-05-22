@@ -109,20 +109,17 @@ def create_meeting(user_id, title, description, time_slots):
         db.session.add(meeting)
         db.session.flush()  # Flush to get the meeting id
 
-        # Loop through time_slots and add each to the database
         for slot in time_slots:
-            start_time = isoparse(slot['startTime'])
-            end_time = isoparse(slot['endTime'])
-            time_slot = TimeSlot(
+            timeslot_service.create_timeslot(
                 user_id=user_id,
                 meeting_id=meeting.id,
-                start_time=start_time,
-                end_time=end_time)
-
-            db.session.add(time_slot)
+                start_time=slot['startTime'],
+                end_time=slot['endTime']
+            )
 
         db.session.commit()
         return meeting
+
     except IntegrityError as error:
         db.session.rollback()
         current_app.logger.error(f"Meeting creation failed: {error}")
