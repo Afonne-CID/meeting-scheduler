@@ -26,7 +26,15 @@ def create_app(name=__name__):
         app (flask.Flask): The initialized Flask application.
     '''
     app = Flask(name)
-    app.config.from_object('config.Config')
+
+    # Load the appropriate configuration
+    if name == 'testing':
+        app.config.from_object('config.TestConfig')
+    elif name == 'development':
+        app.config.from_object('config.DevelopmentConfig')
+    else:  # 'production' or any other value
+        app.config.from_object('config.Config')
+
     CORS(app, resources={
          r"/api/*": {"origins": app.config.get('ALLOWED_ORIGINS')}})
     jwt = JWTManager(app)  # pylint: disable=unused-variable
