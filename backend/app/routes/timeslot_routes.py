@@ -81,6 +81,8 @@ def update_timeslot(timeslot_id):
         end_time=data.get('end_time'))
     if timeslot is None:
         return jsonify(error='Timeslot not found'), 404
+    elif timeslot == 'Unauthorized':
+        return jsonify({'error': 'Unauthorized to update the timeslot'}), 403
     return jsonify(timeslot.to_dict()), 200
 
 
