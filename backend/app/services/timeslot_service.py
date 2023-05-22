@@ -11,9 +11,11 @@ Functions:
 from flask import current_app
 from sqlalchemy.exc import IntegrityError
 from dateutil.parser import isoparse
+from ..utils import is_valid_time_slot
 from ..models.timeslot import TimeSlot
 from ..database import db
 from ..exceptions import ResourceCreationError, UnexpectedError
+
 
 
 def create_timeslot(user_id, meeting_id, start_time, end_time):
