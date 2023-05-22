@@ -79,6 +79,9 @@ def create_meeting():
     '''
     data = request.get_json()
 
+    if data is None:
+        return jsonify({'error': 'No JSON data in request'}), 400
+
     # validate incoming data
     if not all(key in data for key in ['title', 'description']):
         return jsonify({'error': 'Missing required fields'}), 400
@@ -118,7 +121,12 @@ def update_meeting(meeting_id):
     json
         The updated meeting as a JSON object, or an error message.
     '''
+
     data = request.get_json()
+
+    if data is None:
+        return jsonify({'error': 'No JSON data in request'}), 400
+
     try:
         meeting = meeting_service.update_meeting(
             user_id=g.user_id,
