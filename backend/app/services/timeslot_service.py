@@ -39,6 +39,9 @@ def create_timeslot(user_id, meeting_id, start_time, end_time):
         UnexpectedError: If an unexpected error occurs during timeslot creation.
     '''
     try:
+        if not is_valid_time_slot(start_time, end_time):
+            raise ValueError('Invalid time slot')
+
         timeslot = TimeSlot(
             user_id=user_id,
             meeting_id=meeting_id,
@@ -51,12 +54,14 @@ def create_timeslot(user_id, meeting_id, start_time, end_time):
         db.session.rollback()
         current_app.logger.error(f"TimeSlot creation failed: {error}")
         raise ResourceCreationError("TimeSlot creation failed") from error
+    except ValueError as error:
+        db.session.rollback()
+        current_app.logger.error(f"Invalid time slot: {error}")
+        raise ResourceCreationError("Invalid time slot") from error
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
-            "Unexpected error occurred in create_timeslot") from error
-
+        raise UnexpectedError(error, "Unexpected error occurred in create_timeslot") from error
 
 def update_timeslot(user_id, timeslot_id, meeting_id=None, start_time=None, end_time=None):
     '''
@@ -83,21 +88,32 @@ def update_timeslot(user_id, timeslot_id, meeting_id=None, start_time=None, end_
         if timeslot is None:
             return None
         if timeslot and timeslot.user_id != user_id:
-            return None
+            return 'Unauthorized'
+        if timeslot and meeting_id != timeslot.meeting_id:
+            return 'Invalid request'
 
-        if meeting_id is not None:
-            timeslot.meeting_id = meeting_id
         if start_time is not None:
-            timeslot.start_time = start_time
+            new_start_time = isoparse(start_time)
+        else:
+            new_start_time = timeslot.start_time
+
         if end_time is not None:
-            timeslot.end_time = end_time
+            new_end_time = isoparse(end_time)
+        else:
+            new_end_time = timeslot.end_time
+
+        if not is_valid_time_slot(start_time, end_time):
+            raise ValueError('Invalid time slot')
+
+        timeslot.start_time = new_start_time
+        timeslot.end_time = new_end_time
 
         db.session.commit()
         return timeslot
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in update_timeslot") from error
 
 
@@ -119,13 +135,13 @@ def delete_timeslot(user_id, timeslot_id):
         if timeslot is None:
             return None
         if timeslot and timeslot.user_id != user_id:
-            return None
+            return 'Unauthorized'
 
         db.session.delete(timeslot)
         db.session.commit()
-        return timeslot
+        return True
     except Exception as error:
         db.session.rollback()
         current_app.logger.error(f"Unexpected error: {error}")
-        raise UnexpectedError(
+        raise UnexpectedError(error,
             "Unexpected error occurred in delete_timeslot") from error
