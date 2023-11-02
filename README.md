@@ -147,7 +147,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions, suggestions, or general feedback, please feel free to reach out.
 
-- Twitter: [@cidelight_](https://twitter.com/cidelight_)
+- Twitter: [@cidelight_](https://twitter.com/cee_eye_d)
 - LinkedIn: [Cidelight](https://linkedin/in/cidelight)
 
 ---
