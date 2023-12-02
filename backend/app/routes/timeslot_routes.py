@@ -37,16 +37,16 @@ def create_timeslot():
 
     # validate incoming data
     if not all(key in data for key in ['meeting_id',
-                                       'start_time',
-                                       'end_time']):
+                                       'startTime',
+                                       'endTime']):
         return jsonify({'error': 'Missing required fields'}), 400
 
     try:
         timeslot = timeslot_service.create_timeslot(
             user_id=g.user_id,
             meeting_id=data['meeting_id'],
-            start_time=data['start_time'],
-            end_time=data['end_time'])
+            start_time=data['startTime'],
+            end_time=data['endTime'])
         return jsonify(timeslot.to_dict()), 201
     except UnauthorizedError:
         return jsonify({
@@ -77,8 +77,8 @@ def update_timeslot(timeslot_id):
         user_id=g.user_id,
         timeslot_id=timeslot_id,
         meeting_id=data.get('meeting_id'),
-        start_time=data.get('start_time'),
-        end_time=data.get('end_time'))
+        start_time=data.get('startTime'),
+        end_time=data.get('endTime'))
     if timeslot is None:
         return jsonify(error='Timeslot not found'), 404
     elif timeslot == 'Unauthorized':
