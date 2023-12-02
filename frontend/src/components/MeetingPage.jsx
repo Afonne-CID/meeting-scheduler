@@ -51,10 +51,10 @@ const MeetingPage = () => {
   }
 
   const handleCreateTimeslot = (timeslotData) => {
-    if (!timeslotData.start_time || !timeslotData.end_time) {
+    if (!timeslotData.startTime || !timeslotData.endTime) {
       alert('Start and end times cannot be empty');
       return;
-    } else if(new Date(timeslotData.start_time) >= new Date(timeslotData.end_time)) {
+    } else if(new Date(timeslotData.startTime) >= new Date(timeslotData.endTime)) {
       alert('Start time must be less than end time');
       return
     }
@@ -136,10 +136,10 @@ const MeetingPage = () => {
               focus:outline-none focus:shadow-outline mb-2`} 
           />
           <button 
-            onClick={() => handleCreateTimeslot({ 
+            onClick={() => handleCreateTimeslot({
               meeting_id: meeting.id, 
-              start_time: newStartTime, 
-              end_time: newEndTime }
+              startTime: newStartTime, 
+              endTime: newEndTime }
             )} 
             className={`
               ml-2 bg-blue-500 hover:bg-blue-700 text-white 
