@@ -60,5 +60,4 @@ def is_valid_time_slot(start_time, end_time):
     if not isinstance(end_time, datetime):
         end_time = isoparse(end_time)
 
-    print(start_time < end_time and start_time > now and end_time > now)
-    return start_time < end_time and start_time > now and end_time > now
+    return (start_time < end_time) and (end_time > start_time > now)
