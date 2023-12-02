@@ -8,7 +8,7 @@ def handle_bad_request(error):
     '''Handle 400 errors
 
     Args:
-       error (Exception): The ID of the meeting to fetch.
+       error (Exception): The exception raised.
 
     Returns:
         The error message supplied.
@@ -20,7 +20,7 @@ def handle_unauthorized(error):
     '''Handle 401 errors
 
     Args:
-       error (Exception): The ID of the meeting to fetch.
+       error (Exception): The exception raised.
 
     Returns:
         The error message supplied.
@@ -32,7 +32,7 @@ def handle_forbidden(error):
     '''Handle 403 errors
 
     Args:
-       error (Exception): The ID of the meeting to fetch.
+       error (Exception): The exception raised.
 
     Returns:
         The error message supplied.
@@ -44,7 +44,7 @@ def handle_page_not_found(error):
     '''Handle 404 errors
 
     Args:
-       error (Exception): The ID of the meeting to fetch.
+       error (Exception): The exception raised.
 
     Returns:
         The error message supplied.
@@ -56,7 +56,7 @@ def handle_internal_server_error(error):
     '''Handle 500 errors
 
     Args:
-       error (Exception): The ID of the meeting to fetch.
+       error (Exception): The exception raised.
 
     Returns:
         The error message supplied.
