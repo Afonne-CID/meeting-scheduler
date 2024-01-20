@@ -30,7 +30,6 @@ class Config:
     - SQLALCHEMY_TRACK_MODIFICATIONS: Flag to enable or disable SQLAlchemy event system. 
     '''
     SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///db.sqlite3')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'default-jwt-secret-key')
     JWT_ALGORITHM=os.getenv('JWT_ALGORITHM')
     CORS_HEADERS=os.getenv('CORS_HEADERS')
