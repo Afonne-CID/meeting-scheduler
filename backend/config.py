@@ -40,7 +40,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     '''
-    The TestConfig class encapsulates the test configuration parameters of the application.
+    The DevelopmentConfig class encapsulates the test configuration parameters of the application.
 
     Attributes:
     - SQLALCHEMY_DATABASE_URI: The URL of the SQL database to use for the application. 
@@ -50,7 +50,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     '''
-    The DevelopmentConfig class encapsulates the development configuration parameters of the application.
+    The ProductionConfig class encapsulates the production configuration parameters of the application.
 
     Attributes:
 
