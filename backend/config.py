@@ -38,7 +38,7 @@ class Config:
     raw_origins = os.getenv('ALLOWED_ORIGINS', '')
     ALLOWED_ORIGINS = raw_origins.split(',') if raw_origins else []
 
-class TestConfig(Config):
+class DevelopmentConfig(Config):
     '''
     The TestConfig class encapsulates the test configuration parameters of the application.
 
@@ -48,7 +48,7 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv('TEST_SQLALCHEMY_DATABASE_URI', 'sqlite:///db.sqlite3')
 
-class DevelopmentConfig(Config):
+class ProductionConfig(Config):
     '''
     The DevelopmentConfig class encapsulates the development configuration parameters of the application.
 
