@@ -43,7 +43,7 @@ class TestServices(unittest.TestCase):
         and a new database.
         '''
         self.app = create_app('testing')
-        self.app.config.from_object('config.TestConfig')
+        self.app.config.from_object('config.DevelopmentConfig')
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
