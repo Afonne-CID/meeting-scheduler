@@ -11,7 +11,7 @@ Usage:
 
 from app import create_app #pylint: disable=import-error
 
-app = create_app()
+app = create_app('development')
 # Flask application instance.
 # A call to create_app creates application instance from the app module.
 
