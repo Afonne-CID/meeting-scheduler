@@ -28,12 +28,10 @@ def create_app(name=__name__):
     app = Flask(name)
 
     # Load the appropriate configuration
-    if name == 'testing':
-        app.config.from_object('config.TestConfig')
-    elif name == 'development':
+    if name.lower() in ['testing', 'development']:
         app.config.from_object('config.DevelopmentConfig')
     else:  # 'production' or any other value
-        app.config.from_object('config.Config')
+        app.config.from_object('config.ProductionConfig')
 
     CORS(app, resources={
          r"/api/*": {"origins": app.config.get('ALLOWED_ORIGINS')}})
