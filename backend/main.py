@@ -9,7 +9,7 @@ Usage:
     python3 main.py
 '''
 
-from app import create_app
+from app import create_app #pylint: disable=import-error
 
 app = create_app()
 # Flask application instance.
