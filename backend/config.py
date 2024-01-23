@@ -43,16 +43,22 @@ class DevelopmentConfig(Config):
     The DevelopmentConfig class encapsulates the test configuration parameters of the application.
 
     Attributes:
-    - SQLALCHEMY_DATABASE_URI: The URL of the SQL database to use for the application. 
+        - DEVELOPMENT: Indicates app is in test mode.
+        - SQLALCHEMY_DATABASE_URI: The URL of the SQL database to use
+        for the application in development.
     '''
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_SQLALCHEMY_DATABASE_URI', 'sqlite:///db.sqlite3')
+    DEVELOPMENT = True
+    SQLALCHEMY_DATABASE_URI = os.getenv('DEV_SQLALCHEMY_DATABASE_URI', 'sqlite:///db.sqlite3')
 
 class ProductionConfig(Config):
     '''
-    The ProductionConfig class encapsulates the production configuration parameters of the application.
+    The ProductionConfig class encapsulates the production configuration parameters
+    of the application.
 
     Attributes:
-
+        PRODUCTION: Indicates app is in live mode.
+        SQLALCHEMY_DATABASE_URI: The URL of the SQL database to use for
+                                the application in production.
     '''
-    DEVELOPMENT = True
+    PRODUCTION = True
+    SQLALCHEMY_DATABASE_URI = os.getenv('PROD_SQLALCHEMY_DATABASE_URI', 'sqlite:///db.sqlite3')
