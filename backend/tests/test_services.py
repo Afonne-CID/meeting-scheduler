@@ -219,10 +219,7 @@ class TestServices(unittest.TestCase):
         - Asserts that the status code of the second registration
         attempt is 409 (Conflict)
         """
-        user_service.register_user('test@example.com', 'password123')
-        # pylint: disable=unused-variable
-        response, status_code = user_service.register_user('test@example.com',
-                                                           'password123')
+        _, status_code = user_service.register_user('test@example.com', 'password123')
         self.assertEqual(status_code, 409)
 
     def test_fail_login_with_wrong_password(self):
@@ -235,10 +232,7 @@ class TestServices(unittest.TestCase):
         - Tries to log in the user with a wrong password
         - Asserts that the status code of the login attempt is 401 (Unauthorized)
         """
-        user_service.register_user('test@example.com', 'password123')
-        # pylint: disable=unused-variable
-        response, status_code = user_service.login_user('test@example.com',
-                                                        'wrongpassword')
+        _, status_code = user_service.login_user('test@example.com', 'wrongpassword')
         self.assertEqual(status_code, 401)
 
     def test_fail_update_meeting_with_wrong_user_id(self):
