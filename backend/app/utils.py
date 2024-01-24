@@ -14,7 +14,7 @@ def jwt_required_and_user_loaded(function):
     identity from the token.
 
     The decorator first requires that a valid JWT is present in
-    the request (using flask_jwt_extended.jwt_required).
+    the request (using `flask_jwt_extended.jwt_required`).
     Then, it loads the user's identity from the JWT and stores it in
     Flask's application context global (g). If no identity is found,
     it returns a 401 response. If an identity is found, it proceeds with
