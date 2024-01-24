@@ -79,9 +79,7 @@ class TestServices(unittest.TestCase):
         and that the returned user's password does not match the input password
         (because it should be hashed).
         '''
-        response, _ = user_service.register_user('test@example.com',
-                                                 'password123')
-        self.assertEqual(response['user']['email'], 'test@example.com')
+        self.assertEqual(self.test_user['user']['email'], 'test@example.com')
 
     def test_success_login_user(self):
         '''
@@ -89,9 +87,7 @@ class TestServices(unittest.TestCase):
         It asserts that the returned user's email matches the input email,
         and that the login service logs in a user with valid credentials.
         '''
-        user_service.register_user('test@example.com', 'password123')
-        response, _ = user_service.login_user('test@example.com',
-                                              'password123')
+        response, _ = user_service.login_user('test@example.com', 'password123')
         self.assertEqual(response['user']['email'], 'test@example.com')
 
     def test_success_create_meeting(self):
@@ -99,14 +95,7 @@ class TestServices(unittest.TestCase):
         This method tests the meeting_service.create_meeting function.
         It asserts that the returned meeting title matches the input title.
         '''
-        test_user, _ = user_service.register_user(
-            'test@example.com',
-            'password123')
-        meeting = meeting_service.create_meeting(
-            test_user['user']['id'],
-            'Test Meeting',
-            'This is a test meeting', [])
-        self.assertEqual(meeting.title, 'Test Meeting')
+        self.assertEqual(self.test_meeting.title, 'Test Meeting')
 
     def test_success_create_timeslot(self):
         '''
@@ -114,15 +103,7 @@ class TestServices(unittest.TestCase):
         It asserts that the returned timeslot start_time and
         end_time matche the inputs.
         '''
-        test_user, _ = user_service.register_user('test@example.com', 'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting', [])
-        timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                    test_meeting.id,
-                                                    FUTURE_START_TIME,
-                                                    FUTURE_END_TIME)
-        self.assertEqual(timeslot.start_time.strftime('%Y-%m-%dT%H:%M:%S'),
+        self.assertEqual(self.test_timeslot.start_time.strftime('%Y-%m-%dT%H:%M:%S'),
                          FUTURE_START_TIME)
         self.assertEqual(timeslot.end_time.strftime('%Y-%m-%dT%H:%M:%S'),
                          FUTURE_END_TIME)
@@ -131,11 +112,6 @@ class TestServices(unittest.TestCase):
         """
         Test that create_timeslot fails if the start_time is in the past.
         """
-        test_user, _ = user_service.register_user('test@example.com', 'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
         with self.assertRaises(ResourceCreationError):
             timeslot_service.create_timeslot(test_user['user']['id'],
                                              test_meeting.id,
@@ -147,17 +123,7 @@ class TestServices(unittest.TestCase):
         This method tests the vote_service.create_vote function.
         It asserts that a vote's user_id matches the right user that owns the vote.
         '''
-        test_user, _ = user_service.register_user('test@example.com', 'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting', [])
-        test_timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                         test_meeting.id,
-                                                         FUTURE_START_TIME,
-                                                         FUTURE_END_TIME)
-        vote = vote_service.create_vote(test_user['user']['id'],
-                                        test_timeslot.id)
-        self.assertEqual(vote.user_id, test_user['user']['id'])
+        self.assertEqual(self.test_vote.user_id, self.test_user['user']['id'])
 
     def test_success_update_meeting(self):
         '''
@@ -184,14 +150,8 @@ class TestServices(unittest.TestCase):
         It creates a user and a meeting, and then deletes that meeting.
         It asserts that the deletion was successful.
         '''
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                 'Test Meeting',
-                                                 'This is a test meeting',
-                                                 [])
-        deleted = meeting_service.delete_meeting(test_user['user']['id'],
-                                                 meeting.id)
+        deleted = meeting_service.delete_meeting(self.test_user['user']['id'],
+                                                 self.test_meeting.id)
         self.assertTrue(deleted)
 
     def test_success_update_timeslot(self):
@@ -200,16 +160,6 @@ class TestServices(unittest.TestCase):
         It creates a user, a meeting, a timeslot, and then updates that timeslot.
         It asserts that the returned timeslot's start_time matches the new start_time.
         '''
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                 'Test Meeting',
-                                                 'This is a test meeting',
-                                                 [])
-        timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                    meeting.id,
-                                                    FUTURE_START_TIME,
-                                                    FUTURE_END_TIME)
         updated_timeslot = timeslot_service.update_timeslot(
             test_user['user']['id'],
             timeslot.id, meeting.id,
@@ -226,16 +176,6 @@ class TestServices(unittest.TestCase):
         timeslot. It asserts that the returned timeslot's id matches
         the deleted timeslot's id.
         '''
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                 'Test Meeting',
-                                                 'This is a test meeting',
-                                                 [])
-        timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                    meeting.id,
-                                                    FUTURE_START_TIME,
-                                                    FUTURE_END_TIME)
         deleted_timeslot = timeslot_service.delete_timeslot(
             test_user['user']['id'],
             timeslot.id)
@@ -248,30 +188,13 @@ class TestServices(unittest.TestCase):
         deletes that vote. It asserts that the returned vote's id
         matches the deleted vote's id.
         '''
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                 'Test Meeting',
-                                                 'This is a test meeting',
-                                                 [])
-        timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                    meeting.id,
-                                                    FUTURE_START_TIME,
-                                                    FUTURE_END_TIME)
-        vote = vote_service.create_vote(test_user['user']['id'], timeslot.id)
-        deleted_vote = vote_service.delete_vote(test_user['user']['id'], vote.id)
+        deleted_vote = vote_service.delete_vote(self.test_user['user']['id'], self.test_vote.id)
         self.assertEqual(deleted_vote, True)
 
     def test_fail_create_timeslot_past_end_time(self):
         """
         Test that create_timeslot fails if the end_time is in the past.
         """
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
         with self.assertRaises(ResourceCreationError):
             timeslot_service.create_timeslot(test_user['user']['id'],
                                              test_meeting.id,
@@ -283,12 +206,6 @@ class TestServices(unittest.TestCase):
         Test that create_timeslot fails if the end_time is before the
         start_time.
         """
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
         with self.assertRaises(ResourceCreationError):
             timeslot_service.create_timeslot(test_user['user']['id'],
                                              test_meeting.id,
@@ -338,12 +255,6 @@ class TestServices(unittest.TestCase):
         - Tries to update the meeting using a wrong user ID
         - Asserts that the updated meeting is None
         """
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
         updated_meeting = meeting_service.update_meeting('wrong_user_id',
                                                          test_meeting.id,
                                                          'Updated Meeting Title',
@@ -359,12 +270,7 @@ class TestServices(unittest.TestCase):
         - Tries to delete the meeting using a wrong user ID
         - Asserts that the deletion status is None
         """
-        test_user, _ = user_service.register_user('test@example.com', 'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
-        is_deleted = meeting_service.delete_meeting('wrong_user_id', test_meeting.id)
+        is_deleted = meeting_service.delete_meeting('wrong_user_id', self.test_meeting.id)
         self.assertIsNone(is_deleted)
 
     def test_fail_update_timeslot_with_wrong_user_id(self):
@@ -376,16 +282,6 @@ class TestServices(unittest.TestCase):
         - Tries to update the timeslot using a wrong user ID
         - Asserts that the updated timeslot is None
         """
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
-        test_timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                         test_meeting.id,
-                                                         FUTURE_START_TIME,
-                                                         FUTURE_END_TIME)
         updated_timeslot = timeslot_service.update_timeslot('wrong_user_id',
                                                             test_timeslot.id,
                                                             test_meeting.id,
@@ -402,16 +298,6 @@ class TestServices(unittest.TestCase):
         - Tries to delete the timeslot using a wrong user ID
         - Asserts that the deletion status is None
         """
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
-        test_timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                         test_meeting.id,
-                                                         FUTURE_START_TIME,
-                                                         FUTURE_END_TIME)
         deleted_timeslot = timeslot_service.delete_timeslot('wrong_user_id',
                                                             test_timeslot.id)
         self.assertEqual(deleted_timeslot, 'Unauthorized')
@@ -426,20 +312,7 @@ class TestServices(unittest.TestCase):
         - Tries to delete the vote using a wrong user ID
         - Asserts that the deletion status is None
         """
-        test_user, _ = user_service.register_user('test@example.com',
-                                                  'password123')
-        test_meeting = meeting_service.create_meeting(test_user['user']['id'],
-                                                      'Test Meeting',
-                                                      'This is a test meeting',
-                                                      [])
-        test_timeslot = timeslot_service.create_timeslot(test_user['user']['id'],
-                                                         test_meeting.id,
-                                                         FUTURE_START_TIME,
-                                                         FUTURE_END_TIME)
-        test_vote = vote_service.create_vote(test_user['user']['id'],
-                                             test_timeslot.id)
-        deleted_vote = vote_service.delete_vote('wrong_user_id', test_vote.id)
-
+        deleted_vote = vote_service.delete_vote('wrong_user_id', self.test_vote.id)
         self.assertEqual(deleted_vote, 'Unauthorized')
 
 
