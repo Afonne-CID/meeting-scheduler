@@ -136,7 +136,7 @@ class TestServices(unittest.TestCase):
             self.test_meeting.id,
             'Updated Meeting',
             'This is an updated meeting')
-        
+
         self.assertEqual(updated_meeting.title, 'Updated Meeting')
 
     def test_success_delete_meeting(self):
