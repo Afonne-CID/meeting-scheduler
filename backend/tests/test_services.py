@@ -71,6 +71,7 @@ class TestServices(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    # Test Successes
     def test_success_register_user(self):
         '''
         This method tests the user_service.register_user function.
@@ -294,6 +295,7 @@ class TestServices(unittest.TestCase):
                                              FUTURE_END_TIME,
                                              FUTURE_START_TIME)
 
+    # Test Fails
     def test_fail_register_user_with_existing_email(self):
         """
         Test that registering a user with an existing email fails and
