@@ -50,6 +50,17 @@ class TestServices(unittest.TestCase):
 
         db.create_all()
 
+        self.test_user, _ = user_service.register_user('test@example.com', 'password123')
+        self.test_meeting = meeting_service.create_meeting(self.test_user['user']['id'],
+                                                      'Test Meeting',
+                                                      'This is a test meeting', [])
+        self.test_timeslot = timeslot_service.create_timeslot(self.test_user['user']['id'],
+                                                         self.test_meeting.id,
+                                                         FUTURE_START_TIME,
+                                                         FUTURE_END_TIME)
+        self.test_vote = vote_service.create_vote(self.test_user['user']['id'],
+                                        self.test_timeslot.id)
+
     def tearDown(self):
         '''
         This method tears down the testing environment after each test.
